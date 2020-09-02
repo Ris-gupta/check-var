@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotran">
+            <h1 class="dispaly-4">Send Message</h1>
+            <br>
+            <input type="text" id="name" class="form-control" placeholder="name">
+            <br>
+            <textarea id="message" class="form-control" placeholder="message"></textarea>
+            <br>
+            <button id="click">Send</button>
+        </div>
+        <div id="messages"></div>
+    </div>
+    <script>
+        var socket = io()
+        $(() => {
+            // var message = {},
+
+            $('#click').on('click', () => {
+                var message = { name: $('#name').val(), message: $('#message').val() }
+                postMesssages(message)
+            })
+            getMesssages()
+        })
+         socket.on('message', addMessage)
+        function addMessage(message) {
+            $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message}</p>`)
+        }
+        function getMesssages() {
+            $.get('http://localhost:5555/messages', (data) => {
+                data.forEach(addMessage);
+            })
+        }
+        function postMesssages(message) {
+            console.log(message, 'in')
+            $.post('http://localhost:5555/messages', message)
+        }
+    </script>
+</body>
+
+</html>
