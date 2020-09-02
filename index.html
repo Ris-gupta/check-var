@@ -38,13 +38,13 @@
             $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message}</p>`)
         }
         function getMesssages() {
-            $.get('http://localhost:5555/messages', (data) => {
+            $.get('https://check-var.herokuapp.com/messages', (data) => {
                 data.forEach(addMessage);
             })
         }
         function postMesssages(message) {
             console.log(message, 'in')
-            $.post('http://localhost:5555/messages', message)
+            $.post('https://check-var.herokuapp.com/messages', message)
         }
     </script>
 </body>
